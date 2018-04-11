@@ -89,6 +89,8 @@ Thumbs.db
 *.tar
 *.zip
 
+app.php
+
 # -------------------------
 # BEGIN Whitelisted Files
 # -------------------------
