@@ -44,8 +44,12 @@ $cakeDescription = 'Dauphine Research';
         <div class="top-bar-section">
             <ul class="right">
                 <li><?= $this->Html->link(__('Connect'), ['action' => 'index']) ?></li>
-    <li><?= $this->Html->link(__('Register'), ['controller' => 'Users',
-    'action' => 'register']) ?></li>    
+
+                <?php if ($this->request->params['controller'] !== 'Users' && $this->request->params['action'] !== 'register'): ?>
+                    <li><?= $this->Html->link(__('Register'), ['controller' => 'Users',
+    'action' => 'register']) ?></li> 
+                <?php endif; ?>
+      
             </ul>
         </div>
     </nav>
