@@ -109,6 +109,8 @@ class UsersController extends AppController
 
     public function register(){
          if($this->request->is('post')){
+            $firstname = $this->request->data('firstname');
+            $lastname = $this->request->data('lastname');
             $email = $this->request->data('email');
             $username = $this->request->data('username');
             $hashPswdObj = new DefaultPasswordHasher;
@@ -118,6 +120,9 @@ class UsersController extends AppController
             $users->username = $username;
             $users->password = $password;
             $users->email = $email;
+            $users->firstname = $firstname;
+            $users->lastname = $lastname;
+
 
             if($users_table->save($users))
                $this->Flash->success(__('Registration successful'));
