@@ -90,7 +90,7 @@ Thumbs.db
 *.zip
 
 config/app.php
-
+webroot/coverage
 # -------------------------
 # BEGIN Whitelisted Files
 # -------------------------
