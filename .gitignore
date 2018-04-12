@@ -89,8 +89,10 @@ Thumbs.db
 *.tar
 *.zip
 
+# custom ignores here
 config/app.php
 webroot/coverage
+
 # -------------------------
 # BEGIN Whitelisted Files
 # -------------------------

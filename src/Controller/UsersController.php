@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\ORM\TableRegistry;
 
 /**
  * Users Controller
@@ -104,4 +106,25 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function register(){
+         if($this->request->is('post')){
+            $email = $this->request->data('email');
+            $username = $this->request->data('username');
+            $hashPswdObj = new DefaultPasswordHasher;
+            $password = $hashPswdObj->hash($this->request->data('password'));
+            $users_table = TableRegistry::get('users');
+            $users = $users_table->newEntity();
+            $users->username = $username;
+            $users->password = $password;
+            $users->email = $email;
+
+            if($users_table->save($users))
+               $this->Flash->success(__('Registration successful'));
+            else {
+               // $this->setAction('registerfail');
+                $this->Flash->error(__('Duplicate user, please try again with a different one'));
+            }
+         }
+      }
 }
