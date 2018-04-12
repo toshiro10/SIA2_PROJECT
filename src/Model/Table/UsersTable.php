@@ -51,7 +51,8 @@ class UsersTable extends Table
             ->scalar('username')
             ->maxLength('username', 50)
             ->requirePresence('username', 'create')
-            ->notEmpty('username');
+            ->notEmpty('username')
+            ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('password')
@@ -62,7 +63,8 @@ class UsersTable extends Table
         $validator
             ->email('email')
             ->requirePresence('email', 'create')
-            ->notEmpty('email');
+            ->notEmpty('email')
+            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('firstname')
@@ -78,7 +80,7 @@ class UsersTable extends Table
 
         $validator
             ->scalar('url_profil_photo')
-            ->maxLength('url_profil_photo', 120)
+            ->maxLength('url_profil_photo', 255)
             ->allowEmpty('url_profil_photo');
 
         return $validator;
