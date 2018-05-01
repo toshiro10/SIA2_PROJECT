@@ -1,23 +1,38 @@
 <?php
-
+/*<li><?= $this->Html->link(__('Connect'), ['action' => 'index']) ?></li>*/
 ?>
 
 <!DOCTYPE html>
 <html>
 <html lang="en">
 <head>
-
 </head>
 <body>
- <h1>Dauphine Research Home Page</h1>
- <h2>Kevin c'est à toi ici</h2>
- <h3>Passe pas trop de temps dessus quand même</h3>
 
- <ul>
- 	<li><?= $this->Html->link(__('Connect'), ['action' => 'index']) ?></li>
- 	<li><?= $this->Html->link(__('Register'), ['controller' => 'Users',
-    'action' => 'register']) ?></li>	
- </ul>
+
+
+<div class="container">
+<img src ="http://oregoncenterfornursing.org/wp-content/uploads/2016/07/research-4.png" width="150" height="150" class="img-responsive center-block" ></img>
+<div class="login-container">
+<div id="output"></div>
+<div class="form-box">
+    <form action="" method="">
+        <input name="user" type="text" placeholder="username">
+        <input type="password" placeholder="password">
+        <button class="btn btn-success btn-block login" type="submit">Sign in</button>
+
+    </form>
+</div>
+
+</div>
+
+<div class="login-container">
+    <p class="lead"> New to Dauphine Research? <a><?= $this->Html->link(__('Create an account.'), ['controller' => 'Users',
+'action' => 'register']) ?></a> 
+</p>
+</div>
+
+
 </body>
 </html>
 
