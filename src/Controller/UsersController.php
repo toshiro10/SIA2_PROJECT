@@ -124,9 +124,10 @@ class UsersController extends AppController
             $users->lastname = $lastname;
 
 
-            if($users_table->save($users))
-               $this->Flash->success(__('Registration successful'));
-            else {
+            if($users_table->save($users)){
+              /* $this->Flash->success(__('Registration successful'));*/
+               $this->redirect(['controller' => 'Pages', 'action' => 'display', 'home']);
+            }else {
                // $this->setAction('registerfail');
                 $this->Flash->error(__('Duplicate user, please try again with a different one'));
             }
