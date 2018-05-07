@@ -3,6 +3,7 @@ namespace App\Test\TestCase\Controller;
 
 use App\Controller\UsersController;
 use Cake\TestSuite\IntegrationTestCase;
+use Cake\ORM\TableRegistry;
 
 /**
  * App\Controller\UsersController Test Case
@@ -26,7 +27,8 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users');
+        $this->assertResponseOk();
     }
 
     /**
@@ -36,7 +38,11 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testView()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users/view/1');
+        // Check for a 2xx response code
+        $this->assertResponseOk();
+        // Assert partial response content
+        $this->assertResponseContains('Lorem');
     }
 
     /**
@@ -46,7 +52,28 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testAdd()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users/add');
+
+        // Check for a 2xx response code
+        $this->assertResponseOk();
+
+        $data = [
+        'id' => 15,
+        'username' => 'ken.kitchen',
+        'password' => 'qwerty',
+        'firstname' => 'fn',
+        'lastname' => 'pd',
+        'email' => 'abdellatchoindudesert@mektoub.fr'
+        ];
+        $this->post('/users/add', $data);
+
+        // Check for a 2xx response code
+        $this->assertResponseSuccess();
+
+        // Assert view variables
+        $users = TableRegistry::get('Users');
+        $query = $users->find()->where(['username' => $data['username']]);
+        $this->assertEquals(1, $query->count());
     }
 
     /**
@@ -54,10 +81,19 @@ class UsersControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testEdit()
+   /* public function testEdit()
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+       
+     
+      $users_table = TableRegistry::get('users')->find();
+      $users = $users_table->where(['id'=>15]);
+      var_dump($users);
+      $modif = TableRegistry::set('Abdel',$users->username);
+
+      $this->assertEquals(1, $users_table->count()); 
+      
+
+    }*/
 
     /**
      * Test delete method
@@ -66,6 +102,13 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testDelete()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->delete('/users/delete/1');
+
+        // Check for a 2xx/3xx response code
+        $this->assertResponseSuccess();
+
+        $users = TableRegistry::get('Users');
+        $data = $users->find()->where(['id' => 15]);
+        $this->assertEquals(0, $data->count());
     }
 }
