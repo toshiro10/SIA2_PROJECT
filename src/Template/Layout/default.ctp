@@ -49,7 +49,8 @@ $cakeDescription = 'Dauphine Research';
   
 
 <div class="navbar-form navbar-right"> 
-<button class="btn btn-primary text-white btn btn-outline-success my-2 my-sm-0"><?= $this->Html->link(__('Connect'), ['action' => 'index']) ?></button>
+<button class="btn btn-primary text-white btn btn-outline-success my-2 my-sm-0"><?= $this->Html->link(__('Connect'), ['controller' => 'Users' ,
+'action' => 'login']) ?></button>
 
 <?php if ($this->request->params['controller'] !== 'Users' && $this->request->params['action'] !== 'register'): ?>
     <button class="btn btn-success"><?= $this->Html->link(__('Register'), ['controller' => 'Users',
