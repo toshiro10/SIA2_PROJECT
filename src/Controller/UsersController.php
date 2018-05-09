@@ -14,7 +14,10 @@ use Cake\Event\Event;
  */
 class UsersController extends AppController
 {
+      public function loadxml()
+    {
 
+    }
 
     /**
      * Index method
