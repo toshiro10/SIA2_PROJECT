@@ -43,6 +43,21 @@ class AppController extends Controller
 
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
+        $this->loadComponent('Auth', [
+            'loginRedirect' => [
+                'controller' => 'Pages',
+                'action' => 'display'
+            ],
+            'logoutRedirect' => [
+                'controller' => 'Pages',
+                'action' => 'display',
+                'home'
+            ]
+        ]);
+
+        // Allow the display action so our PagesController
+        // continues to work. Also enable the read only actions.
+        $this->Auth->allow(['display', 'view', 'index', 'add', 'logout']);
 
         /*
          * Enable the following components for recommended CakePHP security settings.
@@ -51,4 +66,21 @@ class AppController extends Controller
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
     }
+
+    public function isAuthorized($user)
+    {
+    return true; // DEBUG
+    // Admin can access every action
+    if (isset($user['role']) && $user['role'] === 'admin') {
+        return true;
+    }
+
+    // Default deny
+    return false;
+}
+
+public function beforeFilter(Event $event)
+{
+    $this->Auth->allow(['index', 'view', 'display']);
+}
 }
