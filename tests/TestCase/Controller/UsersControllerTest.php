@@ -58,7 +58,7 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertResponseOk();
 
         $data = [
-        'id' => 15,
+        'id' => 15,//L'ID est autoIncrement, on peut pas le set, en tout cas pas de cette maniere, du coup, dans cet exemple, l'ID =2
         'username' => 'ken.kitchen',
         'password' => 'qwerty',
         'firstname' => 'fn',
@@ -72,8 +72,16 @@ class UsersControllerTest extends IntegrationTestCase
 
         // Assert view variables
         $users = TableRegistry::get('Users');
-        $query = $users->find()->where(['username' => $data['username']]);
+
+        $query = $users->find()
+                        ->where(['username' => $data['username']]);
         $this->assertEquals(1, $query->count());
+
+        //DEBUG
+        $query2 = $users->find()
+                        ->select(['id','username', 'email'])
+                        ->all();
+        debug($query2->toArray());
     }
 
     /**
@@ -81,19 +89,29 @@ class UsersControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-   /* public function testEdit()
+    public function testEdit()
     {
+        $usersTable = TableRegistry::get('Users');
        
-     
-      $users_table = TableRegistry::get('users')->find();
-      $users = $users_table->where(['id'=>15]);
-      var_dump($users);
-      $modif = TableRegistry::set('Abdel',$users->username);
+        //query
+        $query2 = $usersTable->find()
+                        ->select(['id','username', 'email'])
+                        ->all();
+                       // ->where(['username' => 'ken.kitchen']);
+        debug($query2->toArray());
 
-      $this->assertEquals(1, $users_table->count()); 
-      
 
-    }*/
+        $user = $usersTable->get(1); // Retourne l'utilisateur avec l'id 1 (Il n'y a pas d'autres utilisateurs dans la base, elle est reconstruite entre chaque appel)
+        
+        $user->email = 'juju@juliette.com';
+        $usersTable->save($user);
+
+            // Assert view variables
+        $query = $usersTable->find()->where(['id' => 1, 'email' => 'juju@juliette.com']);
+        debug($query->toArray());
+        $this->assertEquals(1, $query->count()); 
+
+    }
 
     /**
      * Test delete method
@@ -108,7 +126,39 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertResponseSuccess();
 
         $users = TableRegistry::get('Users');
-        $data = $users->find()->where(['id' => 15]);
+        $data = $users->find()->where(['id' => 1]); //15 n'existe pas, donc j'ai mis 1
         $this->assertEquals(0, $data->count());
+
+        //Debug
+        $query2 = $users->find()
+                    ->select(['id','username', 'email'])
+                    ->all();
+        debug($query2->toArray());
     }
+
+    /**
+     * Test registry method
+     *
+     * @return void
+     */
+    public function testRegistry()
+    {
+        $this->delete('/users/delete/1');
+
+        // Check for a 2xx/3xx response code
+        $this->assertResponseSuccess();
+
+        $users = TableRegistry::get('Users');
+        $data = $users->find()->where(['id' => 1]); //15 n existe pas, donc j'ai mis 1
+        $this->assertEquals(0, $data->count());
+
+        //Debug
+        $query2 = $users->find()
+                    ->select(['id','username', 'email'])
+                    ->all();
+                   // ->where(['username' => 'ken.kitchen']);
+        debug($query2->toArray());
+    }
+
+
 }
