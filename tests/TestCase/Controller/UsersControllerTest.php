@@ -11,7 +11,7 @@ class UsersControllerTest extends IntegrationTestCase
 {
 
     /**
-     * Fixtures
+     * FixturesKevin
      *
      * @var array
      */
