@@ -16,6 +16,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\User[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\User findOrCreate($search, callable $callback = null, $options = [])
+ *
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class UsersTable extends Table
 {
@@ -33,6 +35,8 @@ class UsersTable extends Table
         $this->setTable('users');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp');
     }
 
     /**
@@ -43,47 +47,18 @@ class UsersTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
-
-        $validator
-            ->scalar('username')
-            ->maxLength('username', 50)
-            ->requirePresence('username', 'create')
-            ->notEmpty('username')
-            ->add('username', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
-
-        $validator
-            ->scalar('password')
-            ->maxLength('password', 255)
-            ->requirePresence('password', 'create')
-            ->notEmpty('password');
-
-        $validator
-            ->email('email')
-            ->requirePresence('email', 'create')
-            ->notEmpty('email')
-            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
-
-        $validator
-            ->scalar('firstname')
-            ->maxLength('firstname', 50)
-            ->requirePresence('firstname', 'create')
-            ->notEmpty('firstname');
-
-        $validator
-            ->scalar('lastname')
-            ->maxLength('lastname', 50)
-            ->requirePresence('lastname', 'create')
-            ->notEmpty('lastname');
-
-        $validator
-            ->scalar('url_profil_photo')
-            ->maxLength('url_profil_photo', 255)
-            ->allowEmpty('url_profil_photo');
-
-        return $validator;
+         return $validator
+            ->notEmpty('username', 'A username is required')
+            ->notEmpty('password', 'A password is required')
+            ->notEmpty('email', 'An email is required')
+            ->notEmpty('firstname', 'A first name is required')
+            ->notEmpty('lastname', 'A last name is required')
+            ->notEmpty('role', 'A role is required')
+            ->allowEmpty('picture')
+            ->add('role', 'inList', [
+                'rule' => ['inList', ['admin', 'author']],
+                'message' => 'Please enter a valid role'
+            ]);
     }
 
     /**
@@ -100,13 +75,4 @@ class UsersTable extends Table
 
         return $rules;
     }
-
-    public function findAuth(\Cake\ORM\Query $query, array $options)
-{
-    $query
-        ->select(['id', 'username', 'password'])
-        ->where(['Users.active' => 1]);
-
-    return $query;
-}
 }

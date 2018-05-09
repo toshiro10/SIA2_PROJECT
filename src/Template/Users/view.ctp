@@ -25,6 +25,10 @@
             <td><?= h($user->password) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Role') ?></th>
+            <td><?= h($user->role) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Email') ?></th>
             <td><?= h($user->email) ?></td>
         </tr>
@@ -37,12 +41,20 @@
             <td><?= h($user->lastname) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Url Profil Photo') ?></th>
-            <td><?= h($user->url_profil_photo) ?></td>
+            <th scope="row"><?= __('Picture') ?></th>
+            <td><?= h($user->picture) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($user->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Created') ?></th>
+            <td><?= h($user->created) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Modified') ?></th>
+            <td><?= h($user->modified) ?></td>
         </tr>
     </table>
 </div>

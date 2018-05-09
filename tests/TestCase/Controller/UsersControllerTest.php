@@ -3,7 +3,6 @@ namespace App\Test\TestCase\Controller;
 
 use App\Controller\UsersController;
 use Cake\TestSuite\IntegrationTestCase;
-use Cake\ORM\TableRegistry;
 
 /**
  * App\Controller\UsersController Test Case
@@ -27,8 +26,7 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->get('/users');
-        $this->assertResponseOk();
+        $this->markTestIncomplete('Not implemented yet.');
     }
 
     /**
@@ -38,11 +36,7 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testView()
     {
-        $this->get('/users/view/1');
-        // Check for a 2xx response code
-        $this->assertResponseOk();
-        // Assert partial response content
-        $this->assertResponseContains('Lorem');
+        $this->markTestIncomplete('Not implemented yet.');
     }
 
     /**
@@ -52,36 +46,7 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testAdd()
     {
-        $this->get('/users/add');
-
-        // Check for a 2xx response code
-        $this->assertResponseOk();
-
-        $data = [
-        'id' => 15,//L'ID est autoIncrement, on peut pas le set, en tout cas pas de cette maniere, du coup, dans cet exemple, l'ID =2
-        'username' => 'ken.kitchen',
-        'password' => 'qwerty',
-        'firstname' => 'fn',
-        'lastname' => 'pd',
-        'email' => 'abdellatchoindudesert@mektoub.fr'
-        ];
-        $this->post('/users/add', $data);
-
-        // Check for a 2xx response code
-        $this->assertResponseSuccess();
-
-        // Assert view variables
-        $users = TableRegistry::get('Users');
-
-        $query = $users->find()
-                        ->where(['username' => $data['username']]);
-        $this->assertEquals(1, $query->count());
-
-        //DEBUG
-        $query2 = $users->find()
-                        ->select(['id','username', 'email'])
-                        ->all();
-        debug($query2->toArray());
+        $this->markTestIncomplete('Not implemented yet.');
     }
 
     /**
@@ -91,6 +56,7 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testEdit()
     {
+<<<<<<< HEAD
         $usersTable = TableRegistry::get('Users');
        
         //query
@@ -111,6 +77,9 @@ class UsersControllerTest extends IntegrationTestCase
         debug($query->toArray());
         $this->assertEquals(1, $query->count()); 
 
+=======
+        $this->markTestIncomplete('Not implemented yet.');
+>>>>>>> f3e655bf401ce5299febdc5caae3677e81136a47
     }
 
     /**
@@ -120,21 +89,9 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testDelete()
     {
-        $this->delete('/users/delete/1');
-
-        // Check for a 2xx/3xx response code
-        $this->assertResponseSuccess();
-
-        $users = TableRegistry::get('Users');
-        $data = $users->find()->where(['id' => 1]); //15 n'existe pas, donc j'ai mis 1
-        $this->assertEquals(0, $data->count());
-
-        //Debug
-        $query2 = $users->find()
-                    ->select(['id','username', 'email'])
-                    ->all();
-        debug($query2->toArray());
+        $this->markTestIncomplete('Not implemented yet.');
     }
+<<<<<<< HEAD
 
     /**
      * Test registry method
@@ -161,4 +118,6 @@ class UsersControllerTest extends IntegrationTestCase
     }
 
 
+=======
+>>>>>>> f3e655bf401ce5299febdc5caae3677e81136a47
 }

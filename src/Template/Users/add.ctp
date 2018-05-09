@@ -17,10 +17,11 @@
         <?php
             echo $this->Form->control('username');
             echo $this->Form->control('password');
+            echo $this->Form->control('role');
             echo $this->Form->control('email');
             echo $this->Form->control('firstname');
             echo $this->Form->control('lastname');
-            echo $this->Form->control('url_profil_photo');
+            // echo $this->Form->control('picture');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
