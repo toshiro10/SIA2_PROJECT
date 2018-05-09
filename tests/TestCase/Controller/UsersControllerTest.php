@@ -3,6 +3,8 @@ namespace App\Test\TestCase\Controller;
 
 use App\Controller\UsersController;
 use Cake\TestSuite\IntegrationTestCase;
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\ORM\TableRegistry;
 
 /**
  * App\Controller\UsersController Test Case
@@ -11,7 +13,7 @@ class UsersControllerTest extends IntegrationTestCase
 {
 
     /**
-     * FixturesKevin
+     * Fixtures
      *
      * @var array
      */
@@ -26,7 +28,8 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users');
+        $this->assertResponseOk();
     }
 
     /**
@@ -36,7 +39,11 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testView()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users/view/1');
+        // Check for a 2xx response code
+        $this->assertResponseOk();
+        // Assert partial response content
+        $this->assertResponseContains('Lorem');
     }
 
     /**
@@ -46,7 +53,36 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testAdd()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/users/add');
+
+        // Check for a 2xx response code
+        $this->assertResponseOk();
+
+        $data = [
+        'id' => 15,//L'ID est autoIncrement, on peut pas le set, en tout cas pas de cette maniere, du coup, dans cet exemple, l'ID =2
+        'username' => 'ken.kitchen',
+        'password' => 'qwerty',
+        'firstname' => 'fn',
+        'lastname' => 'pd',
+        'email' => 'abdellatchoindudesert@mektoub.fr'
+        ];
+        $this->post('/users/add', $data);
+
+        // Check for a 2xx response code
+        $this->assertResponseSuccess();
+
+        // Assert view variables
+        $users = TableRegistry::get('Users');
+
+        $query = $users->find()
+                        ->where(['username' => $data['username']]);
+        $this->assertEquals(1, $query->count());
+
+        //DEBUG
+        $query2 = $users->find()
+                        ->select(['id','username', 'email'])
+                        ->all();
+        debug($query2->toArray());
     }
 
     /**
@@ -56,7 +92,6 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testEdit()
     {
-<<<<<<< HEAD
         $usersTable = TableRegistry::get('Users');
        
         //query
@@ -69,17 +104,14 @@ class UsersControllerTest extends IntegrationTestCase
 
         $user = $usersTable->get(1); // Retourne l'utilisateur avec l'id 1 (Il n'y a pas d'autres utilisateurs dans la base, elle est reconstruite entre chaque appel)
         
-        $user->email = 'abdellatchoindudesert@mektoub.dz';
+        $user->email = 'juju@juliette.com';
         $usersTable->save($user);
 
             // Assert view variables
-        $query = $usersTable->find()->where(['id' => 1, 'email' => 'abdellatchoindudesert@mektoub.dz']);
+        $query = $usersTable->find()->where(['id' => 1, 'email' => 'juju@juliette.com']);
         debug($query->toArray());
         $this->assertEquals(1, $query->count()); 
 
-=======
-        $this->markTestIncomplete('Not implemented yet.');
->>>>>>> f3e655bf401ce5299febdc5caae3677e81136a47
     }
 
     /**
@@ -89,35 +121,72 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testDelete()
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-<<<<<<< HEAD
-
-    /**
-     * Test registry method
-     *
-     * @return void
-     */
-    public function testRegister()
-    {
         $this->delete('/users/delete/1');
 
         // Check for a 2xx/3xx response code
         $this->assertResponseSuccess();
 
         $users = TableRegistry::get('Users');
-        $data = $users->find()->where(['id' => 1]); //15 n existe pas, donc j'ai mis 1
+        $data = $users->find()->where(['id' => 1]); //15 n'existe pas, donc j'ai mis 1
         $this->assertEquals(0, $data->count());
 
         //Debug
         $query2 = $users->find()
                     ->select(['id','username', 'email'])
                     ->all();
-                   // ->where(['username' => 'ken.kitchen']);
         debug($query2->toArray());
     }
 
+    /**
+     * Test register method
+     *
+     * @return void
+     */
+    public function testRegister()
+    {
+        $data = [
+        'username' => 'ken.kitchen',
+        'password' => 'qwerty',
+        'firstname' => 'fn',
+        'lastname' => 'pd',
+        'email' => 'abdellatchoindudesert@mektoub.fr'
+        ];
+        $this->post('/users/add', $data);
+        $this->assertResponseSuccess();
 
-=======
->>>>>>> f3e655bf401ce5299febdc5caae3677e81136a47
+        $firstname = 'Sarah';
+        $lastname = 'Croche';
+        $email = 'sarah.croche@test.com';
+        $username = 'sarahCroche';
+        $hashPswdObj = new DefaultPasswordHasher;
+        $password = $hashPswdObj->hash('test');
+        $users_table = TableRegistry::get('Users');
+        $users = $users_table->newEntity();
+        $users->username = $username;
+        $users->password = $password;
+        $users->email = $email;
+        $users->firstname = $firstname;
+        $users->lastname = $lastname;
+
+        //$users_table->save($users)
+
+        $this->assertTrue($users_table->save($users), 'Sarah is inserted');
+        //$this->assertFalse($users_table->save($users),'Sarah can\'t be inserted twice');
+
+       // var_dump($users_table->save($users));
+
+        //Debug
+
+        $users = TableRegistry::get('Users');
+        $query2 = $users->find()
+                    ->select(['id','username', 'email'])
+                    ->all();
+        debug($query2->toArray());
+
+
+
+
+    }
+
+
 }
