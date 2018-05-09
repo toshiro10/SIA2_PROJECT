@@ -103,11 +103,11 @@ class UsersControllerTest extends IntegrationTestCase
 
         $user = $usersTable->get(1); // Retourne l'utilisateur avec l'id 1 (Il n'y a pas d'autres utilisateurs dans la base, elle est reconstruite entre chaque appel)
         
-        $user->email = 'juju@juliette.com';
+        $user->email = 'abdellatchoindudesert@mektoub.dz';
         $usersTable->save($user);
 
             // Assert view variables
-        $query = $usersTable->find()->where(['id' => 1, 'email' => 'juju@juliette.com']);
+        $query = $usersTable->find()->where(['id' => 1, 'email' => 'abdellatchoindudesert@mektoub.dz']);
         debug($query->toArray());
         $this->assertEquals(1, $query->count()); 
 
@@ -141,7 +141,7 @@ class UsersControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testRegistry()
+    public function testRegister()
     {
         $this->delete('/users/delete/1');
 

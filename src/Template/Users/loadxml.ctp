@@ -23,7 +23,7 @@
 <div class="users form large-9 medium-8 columns content">
         <legend><?= __('Load XML') ?></legend>
         <?php
-            echo $this->Form->control('XML File');
+          echo $this->Form->input('XML File : ',array('type' => 'file'));
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
