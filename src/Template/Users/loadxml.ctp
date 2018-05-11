@@ -21,9 +21,11 @@
   </div><!-- /.container-fluid -->
 </nav>
 <div class="users form large-9 medium-8 columns content">
-        <legend><?= __('Load XML') ?></legend>
+      <legend><?= __('Load XML') ?></legend> 
+    <fieldset>
         <?php
-          echo $this->Form->input('XML File : ',array('type' => 'file'));
+          echo $this->Form->create($this, ['type' => 'file']);
+          echo $this->Form->file('submittedfile');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

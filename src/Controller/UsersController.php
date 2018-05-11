@@ -1,10 +1,10 @@
 <?php
 namespace App\Controller;
-
 use App\Controller\AppController;
 use Cake\Event\Event;
-
-
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\ORM\TableRegistry;
+use Cake\Utility\Xml;
 /**
  * Users Controller
  *
@@ -16,9 +16,15 @@ class UsersController extends AppController
 {
       public function loadxml()
     {
+        if ($this->request->is('post')) {
 
+            debug($this->request->getData());
+            $rawXML = Xml::build($this->request->getData('submittedfile.tmp_name'));
+            $parsedXML =  Xml::toArray($rawXML);
+            debug($parsedXML);
+        }
+        else echo('Fail to read XML');
     }
-
     /**
      * Index method
      *
@@ -27,10 +33,8 @@ class UsersController extends AppController
     public function index()
     {
         $users = $this->paginate($this->Users);
-
         $this->set(compact('users'));
     }
-
     /**
      * View method
      *
@@ -43,14 +47,35 @@ class UsersController extends AppController
         $user = $this->Users->get($id, [
             'contain' => []
         ]);
-
         $this->set('user', $user);
     }
 
-    public function register() {
-        return $this->redirect(
-            ['controller' => 'Users', 'action' => 'add']);
-    }
+public function register(){
+     if($this->request->is('post')){
+        $firstname = $this->request->data('firstname');
+        $lastname = $this->request->data('lastname');
+        $email = $this->request->data('email');
+        $role = $this->request->data('role');
+        $username = $this->request->data('username');
+        $password = $this->request->data('password');
+        $users_table = TableRegistry::get('users');
+        $users = $users_table->newEntity();
+        $users->username = $username;
+        $users->password = $password;
+        $users->email = $email;
+        $users->role = $role;
+        $users->firstname = $firstname;
+        $users->lastname = $lastname;
+        if($users_table->save($users)){
+          /* $this->Flash->success(__('Registration successful'));*/
+           $this->redirect(['controller' => 'Pages', 'action' => 'display', 'home']);
+        }else {
+           // $this->setAction('registerfail');
+            $this->Flash->error(__('Duplicate user, please try again with a different one'));
+        }
+     }
+  }
+
     /**
      * Add method
      *
@@ -63,7 +88,6 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -87,14 +111,12 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
     }
-
     /**
      * Delete method
      *
@@ -111,16 +133,13 @@ class UsersController extends AppController
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
-
         return $this->redirect(['action' => 'index']);
     }
-
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
         $this->Auth->allow('register', 'add', 'logout');
     }
-
     public function login()
     {
         if ($this->request->is('post')) {
@@ -132,11 +151,9 @@ class UsersController extends AppController
             $this->Flash->error(__('Invalid username or password, try again'));
         }
     }
-
     public function logout()
     {
         $this->Auth->logout();
-
         return $this->redirect(
             ['controller' => 'Pages', 'action' => 'display']
         );
