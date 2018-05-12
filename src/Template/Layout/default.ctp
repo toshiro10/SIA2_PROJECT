@@ -43,19 +43,33 @@ $cakeDescription = 'Dauphine Research';
 <nav class="navbar navbar-inverse" data-topbar role="navigation">
 
 <div class="navbar-header">
-    <h1 class="h2"><?= $this->Html->link(__('Dauphine Research'), ['controller' => 'Pages',
+<h1 class="h2"><?= $this->Html->link(__('Dauphine Research'), ['controller' => 'Pages',
 'action' => 'display']) ?></h1>
 </div>
-  
+
 
 <div class="navbar-form navbar-right"> 
+<?php if ($this->request->session()->read('Auth.User.id') == null): ?>
 <button class="btn btn-primary text-white btn btn-outline-success my-2 my-sm-0"><?= $this->Html->link(__('Connect'), ['controller' => 'Users' ,
-'action' => 'login']) ?></button>
+'action' => 'login']) ?>  <a href="#">
+          <span class="glyphicon glyphicon-user"></span>
+        </a></button>
+<?php endif; ?>
 
-<?php if ($this->request->params['controller'] !== 'Users' && $this->request->params['action'] !== 'register'): ?>
-    <button class="btn btn-success"><?= $this->Html->link(__('Register'), ['controller' => 'Users',
+
+<?php if ($this->request->params['controller'] !== 'Users' && $this->request->params['action'] !== 'register' &&  $this->request->session()->read('Auth.User.id') == null): ?>
+<button class="btn btn-success"><?= $this->Html->link(__('Register'), ['controller' => 'Users',
 'action' => 'register']) ?></button> 
 <?php endif; ?>
+
+<?php if ($this->request->session()->read('Auth.User.id') != null): ?>
+<button class="btn btn-danger"><?= $this->Html->link(__('Logout'), ['controller' => 'Users',
+'action' => 'logout']) ?></button>
+<button class="btn btn-light"><?= $this->Html->link(__('My Profile'), ['controller' => 'Users',
+'action' => 'edit/'.$this->request->session()->read('Auth.User.id')]) ?></button>
+<?php endif; ?>
+
+
 </div>
 
 
