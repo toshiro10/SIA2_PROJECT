@@ -51,9 +51,8 @@ $cakeDescription = 'Dauphine Research';
 <div class="navbar-form navbar-right"> 
 <?php if ($this->request->session()->read('Auth.User.id') == null): ?>
 <button class="btn btn-primary text-white btn btn-outline-success my-2 my-sm-0"><?= $this->Html->link(__('Connect'), ['controller' => 'Users' ,
-'action' => 'login']) ?>  <a href="#">
-          <span class="glyphicon glyphicon-user"></span>
-        </a></button>
+'action' => 'login']) ?>  
+        </button>
 <?php endif; ?>
 
 
