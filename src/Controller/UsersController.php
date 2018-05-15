@@ -18,10 +18,99 @@ class UsersController extends AppController
     {
         if ($this->request->is('post')) {
 
-            debug($this->request->getData());
+            //debug($this->request->getData());
             $rawXML = Xml::build($this->request->getData('submittedfile.tmp_name'));
             $parsedXML =  Xml::toArray($rawXML);
-            debug($parsedXML);
+            //debug($parsedXML);
+
+            $fullXML = $parsedXML['dblp'];
+            $books = $fullXML['book'];
+            //debug($books);
+           // debug($books);
+
+            $modified = null;
+            $key =null;
+            $author = null;          
+            $title = null;     
+            $publisher = null;       
+            $year = null;       
+            $publisherID = null;       
+            $isbn = null;        
+            $ee = null;       
+            $url = null;
+            $series=null;
+
+
+            $books_Table = TableRegistry::get('Books');
+            foreach ($books as $book){
+
+                //debug($book);
+                if(array_key_exists('@mdate', $book))
+                    $modified = $book['@mdate'];
+                //debug($modified);
+                //debug(array_key_exists('@mdate', $book));
+                if(array_key_exists('@key', $book))
+                    $key = $book['@key'];
+                if(array_key_exists('author', $book))
+                    $author = $book['author'];
+                if(array_key_exists('title', $book))
+                    $title = $book['title'];
+                if(array_key_exists('publisher', $book))
+                    $publisher = $book['publisher'];
+                if(array_key_exists('year', $book))    
+                    $year = $book['year'];
+                if(array_key_exists('isbn', $book))
+                    $isbn = $book['isbn'];
+                if(array_key_exists('ee', $book))    
+                    $ee = $book['ee'];
+                if(array_key_exists('url', $book))
+                    $url = $book['url'];
+                if(array_key_exists('series', $book))
+                    $series = $book['series'];
+          //debug($modified);
+
+                $newBook =  $books_Table->newEntity();
+                $newBook->modified = $modified;
+                //$newBook->key = $key;
+                $newBook->title = $title;
+               // $newBook->editor_id = $publisher;
+                $newBook->isbn = $isbn;
+                $newBook->ee = $ee;
+                $newBook->url = $url;
+                $newBook->series = $series;
+
+                //debug($newBook);
+
+                $books_Table->save($newBook);
+
+                $modified = null;
+                $key =null;
+                $author = null;          
+                $title = null;     
+                $publisher = null;       
+                $year = null;       
+                $publisherID = null;       
+                $isbn = null;        
+                $ee = null;       
+                $url = null;
+                $series=null;
+
+
+
+       
+            }
+
+
+
+
+            /*foreach($parsedXML['dblp'] as $books){
+
+                debug(sizeof($books[0]));
+                debug($books[0]);
+                debug($books[1]);
+              
+            }*/
+
         }
         else echo('Fail to read XML');
     }

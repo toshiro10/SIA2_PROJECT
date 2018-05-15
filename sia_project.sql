@@ -59,14 +59,14 @@ DROP TABLE IF EXISTS `books`;
 CREATE TABLE IF NOT EXISTS `books` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `modified` datetime NOT NULL,
-  `created` datetime NOT NULL,
-  `year` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `editor_id` int(11) NOT NULL,
-  `isbn` varchar(13) NOT NULL,
-  `ee` varchar(255) NOT NULL,
-  `series` varchar(255) NOT NULL,
-  `url` varchar(255) NOT NULL,
+  `created` datetime,
+  `year` varchar(255),
+  `title` varchar(255),
+  `editor_id` int(11),
+  `isbn` varchar(255),
+  `ee` varchar(255),
+  `series` varchar(255),
+  `url` varchar(255),
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
