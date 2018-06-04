@@ -10,6 +10,16 @@
         <li><?= $this->Html->link(__('New Book'), ['action' => 'add']) ?></li>
     </ul>
 </nav>
+<?php
+    echo $this->Form->create(null, ['valueSources' => 'query']);
+    // You'll need to populate $authors in the template from your controller
+    // echo $this->Form->control('authorid');
+    // Match the search param in your table configuration
+    echo $this->Form->control('q');
+    echo $this->Form->button('Filter', ['type' => 'submit']);
+    echo $this->Html->link('Reset', ['action' => 'index']);
+    echo $this->Form->end();
+?>
 <div class="books index large-9 medium-8 columns content">
     <h3><?= __('Books') ?></h3>
     <table cellpadding="0" cellspacing="0">
