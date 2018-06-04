@@ -40,10 +40,10 @@ class BooksTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Editors', [
+        /*$this->belongsTo('Editors', [
             'foreignKey' => 'editor_id',
             'joinType' => 'INNER'
-        ]);
+        ]);*/
 
 
         // Add the behaviour to your table

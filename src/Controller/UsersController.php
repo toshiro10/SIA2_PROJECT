@@ -25,10 +25,11 @@ class UsersController extends AppController
 
             $fullXML = $parsedXML['dblp'];
             $books = $fullXML['book'];
+            $articles = $fullXML['article'];
             //debug($books);
            // debug($books);
 
-            $modified = null;
+            $mdate = null;
             $key =null;
             $author = null;          
             $title = null;     
@@ -39,14 +40,22 @@ class UsersController extends AppController
             $ee = null;       
             $url = null;
             $series=null;
+            $journal=null;
+            $volume=null;
+            $pages=null;
 
 
             $books_Table = TableRegistry::get('Books');
+            $articles_Table = TableRegistry::get('Articles');
+            $authorArticles_Table = TableRegistry::get('Authors_articles');
+            $authors_Table = TableRegistry::get('Authors');
+            $states_Table = TableRegistry::get('States');
+
             foreach ($books as $book){
 
                 //debug($book);
                 if(array_key_exists('@mdate', $book))
-                    $modified = $book['@mdate'];
+                    $mdate = $book['@mdate'];
                 //debug($modified);
                 //debug(array_key_exists('@mdate', $book));
                 if(array_key_exists('@key', $book))
@@ -70,7 +79,7 @@ class UsersController extends AppController
           //debug($modified);
 
                 $newBook =  $books_Table->newEntity();
-                $newBook->modified = $modified;
+                $newBook->modified = $mdate;
                 //$newBook->key = $key;
                 $newBook->title = $title;
                // $newBook->editor_id = $publisher;
@@ -83,7 +92,7 @@ class UsersController extends AppController
 
                 $books_Table->save($newBook);
 
-                $modified = null;
+                $mdate = null;
                 $key =null;
                 $author = null;          
                 $title = null;     
@@ -94,6 +103,119 @@ class UsersController extends AppController
                 $ee = null;       
                 $url = null;
                 $series=null;
+                $journal=null;
+                $volume=null;
+                $pages=null;
+
+
+
+
+       
+            }
+            foreach ($articles as $article){
+
+                //debug($book);
+                if(array_key_exists('@mdate', $article))
+                    $mdate = $article['@mdate'];
+
+
+                //debug($modified);
+                //debug(array_key_exists('@mdate', $book));
+                if(array_key_exists('@key', $article))
+                    $key = $article['@key'];
+                if(array_key_exists('author', $article)){
+                    $author = $article['author']; 
+                }
+                if(array_key_exists('title', $article)){
+                    if(is_array($article['title'])){
+                        debug($article['title']);
+                        $title = $article['title']['@'];
+                    }
+                    else
+                        $title = $article['title'];
+                }
+                if(array_key_exists('year', $article))
+                    $year = $article['year'];
+                if(array_key_exists('volume', $article))    
+                    $volume = $article['volume'];
+                if(array_key_exists('journal', $article))
+                    $journal = $article['journal'];
+                if(array_key_exists('ee', $article))    
+                    $ee = $article['ee'];
+                if(array_key_exists('url', $article))
+                    $url = $article['url'];
+                if(array_key_exists('number', $article))
+                    $number = $article['number'];
+                if(array_key_exists('pages', $article))
+                    $pages = $article['pages'];
+          //debug($modified);
+
+                $newArticle =  $articles_Table->newEntity();
+                $newArticle->mdate = $mdate;
+                $newArticle->lkey = $key;
+                $newArticle->author = $author;
+                $newArticle->title = $title;
+                $newArticle->year = $year;
+                $newArticle->volume = $volume;
+                $newArticle->ee = $ee;
+                $newArticle->url = $url;
+                $newArticle->journal = $journal;
+                $newArticle->number = $number;
+                $newArticle->pages = $pages;
+
+
+
+                $articles_Table->save($newArticle);
+
+                 if($author !=null){
+                        //ajout dans la table  Author
+                        if(is_array($author)){
+                            foreach ($author as $auth) {
+                                $query = $authors_Table->find()->where(['authorfullname' => $auth]);
+                                if($query->count()==0){
+                                    $newAuthor =  $authors_Table->newEntity();
+                                    $newAuthor->authorfullname =$auth;
+                                    $authors_Table->save($newAuthor);
+
+                                    //ajout dans la table Authors_Articles
+                                    $newAuthorArticle = $authorArticles_Table->newEntity();
+                                    $getAuthorID = $authors_Table->find()->select(['id'])
+                                                                        ->where(['authorfullname' => $auth]);
+                                    $newAuthorArticle->id_author = $getAuthorID;
+                                    $newAuthorArticle->id_article = $newArticle->id;
+                                    $authorArticles_Table->save($newAuthorArticle);
+                                }
+                            }
+                        }
+                        else {
+                            $query = $authors_Table->find()->where(['authorfullname' => $author]);
+                            $newAuthor =  $authors_Table->newEntity();
+                            $newAuthor->authorfullname =$author;
+                            $authors_Table->save($newAuthor);
+
+                            //ajout dans la table Authors_Articles
+                            $newAuthorArticle = $authorArticles_Table->newEntity();
+                            $getAuthorID = $authors_Table->find()->select(['id'])
+                                                                ->where(['authorfullname' => $author]);
+                            $newAuthorArticle->id_author = $getAuthorID;
+                            $newAuthorArticle->id_article = $newArticle->id;
+                        }
+                }
+
+                $mdate = null;
+                $key =null;
+                $author = null;          
+                $title = null;     
+                $publisher = null;       
+                $year = null;       
+                $publisherID = null;       
+                $isbn = null;        
+                $ee = null;       
+                $url = null;
+                $series=null;
+                $journal=null;
+                $volume=null;
+                $pages=null;
 
 
 

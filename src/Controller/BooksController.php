@@ -81,8 +81,8 @@ public function edit($id = null)
         }
         $this->Flash->error(__('The book could not be saved. Please, try again.'));
     }
-    $editors = $this->Books->Editors->find('list', ['limit' => 200]);
-    $this->set(compact('book', 'editors'));
+  //  $editors = $this->Books->Editors->find('list', ['limit' => 200]);
+  //  $this->set(compact('book', 'editors'));
 }
 
 /**
