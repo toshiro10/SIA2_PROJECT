@@ -24,37 +24,27 @@
 <div class="container container mt-4 mb-5">
 <h3 class="display-4 text-center"> Les top 3 thèses </h3>
 <hr class="bg-dark mb-4 w-25">
-<div class="row">
-<div class="col-lg-6">
- <div class="input-group">
-<input type="text" class="form-control" placeholder="Search for...">
-
-<button class="btn btn-danger" type="button">Go!</button>
-
-</div>
-</div>
-</div>
 <br>
 
 <div class="row">
 <div class="col-md-4">
 <div class="card">
 
-    <img class="card-img-top" src="https://dummyimage.com/350x250/c7c7c7/000.png" alt="Card image cap">
+    <img class="card-img-top" src="https://www.freeiconspng.com/uploads/-png-keywords-books-icons-icons-icons-psd-files-size-5-54mb-zip-license-14.png" alt="Card image cap", width="500px", height="250px">
     <div class="card-block p-3">
-        <h4 class="card-title">HTML</h4>
+        <h4 class="card-title">Livres</h4>
         <p class="card-text">When an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-        <a href="#" class="btn btn-primary rounded-0 mb-2">Read More</a>
+        <a><?= $this->Html->link(__(' Search Books'), ['controller' => 'Books']) ?></a> 
     </div>
 </div>
 </div>
 <div class="col-md-4">
 <div class="card">
-    <img class="card-img-top" src="https://dummyimage.com/350x250/c7c7c7/000.png" alt="Card image cap">
+    <img class="card-img-top" src="http://www.housingeurope.eu/image/163/sectionheaderpng/resourcesdef.png" alt="Card image cap", width="500px", height="250px">
     <div class="card-block p-3">
-        <h4 class="card-title">CSS</h4>
+        <h4 class="card-title">Articles</h4>
         <p class="card-text">When an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-        <a href="#" class="btn btn-primary rounded-0 mb-2">Read More</a>
+        <a><?= $this->Html->link(__(' Search Articles'), ['controller' => 'Articles']) ?></a>
     </div>
 </div>
 </div>
@@ -92,7 +82,7 @@
 <a href="#" class="btn btn-outline-primary rounded-0"> Read More</a>
 </div>
 <div class="col-md-4 mt-5">
-<img class="card-img-top" src="https://dummyimage.com/300x300/c7c7c7/000.png" alt="Card image cap">
+<img class="card-img-top" src="https://business.critizr.com/hubfs/Webinar%20les%20avis%20clients%20nouveau%20graal.png" alt="Card image cap", width="500px", height="300px">
 </div>
 </div>
 </div>
@@ -106,7 +96,6 @@
     <ul class="list-inline row  mx-auto">
         <li class="col-md-4"><img class="d-block img-fluid" src="https://vignette.wikia.nocookie.net/worldofcarsdrivein/images/5/5f/Yoda.png" alt="First slide"></li>
         <li class="col-md-4"><img class="d-block img-fluid" src="https://vignette.wikia.nocookie.net/fusionfallfanonsite/images/8/8e/Anakin_Skywalker.png" alt="First slide"></li>
-        <li class="col-md-4"><img class="d-block img-fluid" src="https://risibank.fr/cache/stickers/d178/17866-full.png" alt="First slide"></li>
        
     </ul>
 </div>
