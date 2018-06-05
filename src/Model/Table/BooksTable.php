@@ -93,25 +93,25 @@ class BooksTable extends Table
             ->scalar('isbn')
             ->maxLength('isbn', 13)
             ->requirePresence('isbn', 'create')
-            ->notEmpty('isbn');
+            ->allowEmpty('isbn');
 
         $validator
             ->scalar('ee')
             ->maxLength('ee', 255)
             ->requirePresence('ee', 'create')
-            ->notEmpty('ee');
+            ->allowEmpty('ee');
 
         $validator
             ->scalar('series')
             ->maxLength('series', 255)
             ->requirePresence('series', 'create')
-            ->notEmpty('series');
+            ->allowEmpty('series');
 
         $validator
             ->scalar('url')
             ->maxLength('url', 255)
             ->requirePresence('url', 'create')
-            ->notEmpty('url');
+           ->allowEmpty('url');
 
         return $validator;
     }
