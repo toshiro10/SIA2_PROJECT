@@ -92,7 +92,6 @@ Thumbs.db
 # custom ignores here
 config/app.php
 webroot/coverage
-config/app.php
 
 # -------------------------
 # BEGIN Whitelisted Files
