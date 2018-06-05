@@ -12,9 +12,28 @@
         <li><?= $this->Html->link(__('New Author'), ['controller' => 'Authors', 'action' => 'add']) ?></li>
     </ul>
 </nav>
+<h3 class="text-center"><?= __('Search Articles') ?></h3>
+<div>
+<?php
+echo $this->Form->create(null, ['valueSources' => 'query', 'class' => 'col-md-8']);
+// You'll need to populate $authors in the template from your controller
+// echo $this->Form->control('authorid');
+// Match the search param in your table configuration
+
+echo $this->Form->control('Title',['class' =>'form-control']);
+?>
+
+<?php
+
+echo $this->Form->button('Filter', ['type' => 'submit', 'class' =>'btn btn-danger']);
+echo $this->Html->link('Reset', ['action' => 'index', 'class' => 'btn btn-success']);
+echo $this->Form->end();
+?>
+</div>
+</br>
+</br>
 <div class="articles index large-9 medium-8 columns content">
-    <h3><?= __('Articles') ?></h3>
-    <table cellpadding="0" cellspacing="0">
+    <table cellpadding="0" cellspacing="0" class="table table-bordered table-striped table-dark">
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>

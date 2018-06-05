@@ -36,11 +36,33 @@ class ArticlesTable extends Table
         $this->setDisplayField('title');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('Timestamp');
+
+        // Add the behaviour to your table
+        $this->addBehavior('Search.Search');
+
         $this->belongsToMany('Authors', [
             'foreignKey' => 'article_id',
             'targetForeignKey' => 'author_id',
             'joinTable' => 'authors_articles'
         ]);
+
+           $this->searchManager()
+            ->value('id')
+            // Here we will alias the 'q' query param to search the `Articles.title`
+            // field and the `Articles.content` field, using a LIKE match, with `%`
+            // both before and after.
+            ->add('q', 'Search.Like', [
+                'before' => true,
+                'after' => true,
+                'fieldMode' => 'OR',
+                'comparison' => 'LIKE',
+                'wildcardAny' => '*',
+                'wildcardOne' => '?',
+                'field' => ['title']
+            ]);
+
+
     }
 
     /**
@@ -66,14 +88,15 @@ class ArticlesTable extends Table
 
         $validator
             ->date('mdate')
-            ->requirePresence('mdate', 'create')
-            ->notEmpty('mdate');
+            ->requirePresence('mdate', 'create');
+          
 
         $validator
             ->scalar('lkey')
             ->maxLength('lkey', 255)
-            ->requirePresence('lkey', 'create')
-            ->notEmpty('lkey');
+            ->allowEmpty('lkey')
+            ->requirePresence('lkey', 'create');
+            
 
         $validator
             ->scalar('title')
@@ -84,7 +107,7 @@ class ArticlesTable extends Table
         $validator
             ->scalar('year')
             ->maxLength('year', 255)
-            ->allowEmpty('year');
+            ->notEmpty('year');
 
         $validator
             ->integer('volume')
