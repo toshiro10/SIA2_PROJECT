@@ -43,11 +43,20 @@ CREATE TABLE IF NOT EXISTS `authorbooks` (
 
 DROP TABLE IF EXISTS `authors`;
 CREATE TABLE IF NOT EXISTS `authors` (
-  `id` int(11) NOT NULL,
-  `authorname` varchar(50) NOT NULL,
-  `authorfirstname` varchar(50) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(50) DEFAULT NULL,
+  `authorname` varchar(50) DEFAULT NULL,
+  `authorfirstname` varchar(50) DEFAULT NULL,
+  `authorfullname` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
 
 -- --------------------------------------------------------
 
@@ -126,3 +135,81 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `articles`
+--
+
+DROP TABLE IF EXISTS `articles`;
+CREATE TABLE IF NOT EXISTS `articles` (
+  `id` int(50) NOT NULL AUTO_INCREMENT,
+  `id_book` int(50) DEFAULT NULL,
+  `id_state` int(50) NOT NULL DEFAULT '1',
+  `mdate` date NOT NULL,
+  `lkey` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `year` varchar(255) DEFAULT NULL,
+  `volume` int(50) DEFAULT NULL,
+  `journal` varchar(255) DEFAULT NULL,
+  `number` int(50) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `ee` varchar(255) DEFAULT NULL,
+  `pages` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `states`
+--
+
+DROP TABLE IF EXISTS `states`;
+CREATE TABLE IF NOT EXISTS `states` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `state` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `states`
+--
+
+INSERT INTO `states` (`id`, `state`) VALUES
+(1, 'Brouillon'),
+(2, 'Publié');
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `authors_articles`
+--
+
+DROP TABLE IF EXISTS `authors_articles`;
+CREATE TABLE IF NOT EXISTS `authors_articles` (
+  `id_article` int(50) NOT NULL,
+  `id_author` int(50) NOT NULL,
+  PRIMARY KEY (`id_article`,`id_author`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
