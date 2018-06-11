@@ -377,6 +377,9 @@ public function register(){
         $mean_author->select(['count' => $mean_author->func()->count('id_author')])
                     ->group('id_article');
 
-        debug($mean_author->toArray());
+        //debug($mean_author->toArray());
+
+        $this->set('abdelTerro', $mean_author->toArray());
+
     }
 }
