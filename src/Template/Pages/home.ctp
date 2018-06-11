@@ -50,11 +50,11 @@
 </div>
 <div class="col-md-4">
 <div class="card">
-    <img class="card-img-top" src="https://dummyimage.com/350x250/c7c7c7/000.png" alt="Card image cap">
+    <img class="card-img-top" src="https://cdn.icon-icons.com/icons2/609/PNG/512/professor_icon-icons.com_56337.png" alt="Card image cap", width="500px", height="250px">
     <div class="card-block p-3">
-        <h4 class="card-title">BOOTSTRAP</h4>
+        <h4 class="card-title">Chercheur</h4>
         <p class="card-text">When an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-        <a href="#" class="btn btn-primary rounded-0 mb-2">Read More</a>
+        <a><?= $this->Html->link(__(' Search Articles'), ['controller' => 'Articles']) ?></a>
     </div>
 </div>
 </div>
@@ -93,10 +93,12 @@
 <div id="carouselLogo" class="carousel slide pt-3" data-ride="carousel">
 <div class="carousel-inner" role="listbox">
 <div class="carousel-item active">
-    <ul class="list-inline row  mx-auto">
-        <li class="col-md-4"><img class="d-block img-fluid" src="https://vignette.wikia.nocookie.net/worldofcarsdrivein/images/5/5f/Yoda.png" alt="First slide"></li>
-        <li class="col-md-4"><img class="d-block img-fluid" src="https://vignette.wikia.nocookie.net/fusionfallfanonsite/images/8/8e/Anakin_Skywalker.png" alt="First slide"></li>
-       
+    <ul class="list-inline row  mx-auto text-center">
+        <li class="col-md-4"><img class="d-block img-fluid" src="https://vignette.wikia.nocookie.net/worldofcarsdrivein/images/5/5f/Yoda.png" alt="First slide", width="100px", height="150px"></li>
+        <li class="col-md-4"><img class="d-block img-fluid" src="https://vignette.wikia.nocookie.net/fusionfallfanonsite/images/8/8e/Anakin_Skywalker.png" alt="First slide" , width="100px", height="150px"></li>
+        <li class="col-md-4"><img class="d-block img-fluid" src="http://i.neoseeker.com/mgv/179845/845/55/nihilusprincipal_display.png" alt="First slide" , width="100px", height="150px"></li>
+       <li class="col-md-4"><img class="d-block img-fluid" src="https://vignette.wikia.nocookie.net/starwars/images/6/6c/SithWarrior-TOR.png" alt="First slide" , width="100px", height="150px"></li>
+
     </ul>
 </div>
 <div class="carousel-item">
