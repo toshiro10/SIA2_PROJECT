@@ -370,6 +370,13 @@ public function register(){
         );
     }
     public function stat(){
-        
+        $authorArticles_Table = TableRegistry::get('Authors_articles');
+
+        $mean_author = $authorArticles_Table->find();
+        // You can add extra things to the query if you need to
+        $mean_author->select(['count' => $mean_author->func()->count('id_author')])
+                    ->group('id_article');
+
+        debug($mean_author->toArray());
     }
 }

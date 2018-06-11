@@ -88,21 +88,20 @@ CREATE TABLE IF NOT EXISTS `books` (
 DROP TABLE IF EXISTS `incollections`;
 CREATE TABLE IF NOT EXISTS `incollections` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `mdate` date NOT NULL,
-  `modified` datetime NOT NULL,
-  `created` datetime NOT NULL,
-  `year` int(11) NOT NULL,
-  `publication_key` varchar(255) NOT NULL,
+  `mdate` date DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `created` datetime DEFAULT CURRENT_TIMESTAMP,
+  `year` int(11) DEFAULT NULL,
+  `publication_key` varchar(255) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
-  `pages` varchar(50) NOT NULL,
+  `pages` varchar(50) DEFAULT NULL,
   `crossref` varchar(255) DEFAULT NULL,
   `title_book` varchar(255) DEFAULT NULL,
   `ee` varchar(255) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
+COMMIT;
 
 --
 -- Structure de la table `users`
@@ -212,4 +211,28 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `inproceedings`
+--
+
+DROP TABLE IF EXISTS `inproceedings`;
+CREATE TABLE IF NOT EXISTS `inproceedings` (
+  `id` int(50) NOT NULL AUTO_INCREMENT,
+  `id_book` int(50) DEFAULT NULL,
+  `id_state` int(50) NOT NULL DEFAULT '1',
+  `mdate` date NOT NULL,
+  `lkey` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `year` varchar(255) DEFAULT NULL,
+  `crossref` varchar(255) DEFAULT NULL,
+  `booktitle` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `ee` varchar(255) DEFAULT NULL,
+  `pages` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=359 DEFAULT CHARSET=utf8;
+COMMIT;
 
