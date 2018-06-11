@@ -369,4 +369,7 @@ public function register(){
             ['controller' => 'Pages', 'action' => 'display']
         );
     }
+    public function stat(){
+        
+    }
 }

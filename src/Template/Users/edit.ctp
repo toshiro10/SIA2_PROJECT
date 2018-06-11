@@ -16,6 +16,8 @@
             <li><a href="#">My Favorites</a></li>
             <li><?= $this->Html->link(__('Load XML'), ['controller' => 'Users' ,
 'action' => 'loadxml']) ?></li>
+        <li><?= $this->Html->link(__('My Stats'), ['controller' => 'Users' ,
+'action' => 'stat']) ?></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
