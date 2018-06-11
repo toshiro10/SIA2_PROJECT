@@ -43,6 +43,7 @@ class UsersController extends AppController
             $journal=null;
             $volume=null;
             $pages=null;
+            $state = null;
 
 
             $books_Table = TableRegistry::get('Books');
@@ -106,6 +107,7 @@ class UsersController extends AppController
                 $journal=null;
                 $volume=null;
                 $pages=null;
+                $state = null;
 
 
 
@@ -162,8 +164,8 @@ class UsersController extends AppController
                 $newArticle->journal = $journal;
                 $newArticle->number = $number;
                 $newArticle->pages = $pages;
-
-
+                $newArticle->id_state = $states_Table->find()->select(['id'])
+                                                            ->where(['state' => 'Publié']);
 
                 $articles_Table->save($newArticle);
 
@@ -175,6 +177,7 @@ class UsersController extends AppController
                                 if($query->count()==0){
                                     $newAuthor =  $authors_Table->newEntity();
                                     $newAuthor->authorfullname =$auth;
+                                    $newAuthor->id_user = $this->Auth->user('id');
                                     $authors_Table->save($newAuthor);
 
                                     //ajout dans la table Authors_Articles
@@ -191,6 +194,7 @@ class UsersController extends AppController
                             $query = $authors_Table->find()->where(['authorfullname' => $author]);
                             $newAuthor =  $authors_Table->newEntity();
                             $newAuthor->authorfullname =$author;
+                            $newAuthor->id_user = $this->Auth->identify();
                             $authors_Table->save($newAuthor);
 
                             //ajout dans la table Authors_Articles
@@ -199,6 +203,8 @@ class UsersController extends AppController
                                                                 ->where(['authorfullname' => $author]);
                             $newAuthorArticle->id_author = $getAuthorID;
                             $newAuthorArticle->id_article = $newArticle->id;
+
+
                         }
                 }
 
@@ -216,6 +222,7 @@ class UsersController extends AppController
                 $journal=null;
                 $volume=null;
                 $pages=null;
+                $state = null;
 
 
 
@@ -372,14 +379,23 @@ public function register(){
     public function stat(){
         $authorArticles_Table = TableRegistry::get('Authors_articles');
 
-        $mean_author = $authorArticles_Table->find();
+        $countAuthorsByArticle = $authorArticles_Table->find();
         // You can add extra things to the query if you need to
-        $mean_author->select(['count' => $mean_author->func()->count('id_author')])
+        $countAuthorsByArticle = $countAuthorsByArticle->select(['count' => $countAuthorsByArticle->func()->count('id_author')])
                     ->group('id_article');
+        $sumCount = 0;
+        $nbResults = $countAuthorsByArticle->count();
 
-        //debug($mean_author->toArray());
+        //debug($countAuthorsByArticle->toArray());
+        foreach ($countAuthorsByArticle->toArray() as $count) {
+            $sumCount += $count['count'];
+        }
 
-        $this->set('abdelTerro', $mean_author->toArray());
+        $mean_author = $sumCount/$nbResults;
 
+       // $mean_author = $countAuthorsByArticle->select(['average' => $countAuthorsByArticle->func()->sum(count('id_author'))]);
+
+        debug($mean_author);
+        $this->set('mean_author', $mean_author);
     }
 }

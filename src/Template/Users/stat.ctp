@@ -1,4 +1,6 @@
-<h1>Abdel le bataclan</h1>
+<?php
+?>
+<h1>Some statistics on articles</h1>
 
  <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -23,5 +25,5 @@
 <h2>stats</h2>
 <table>
 	<tr><th>Name</th><th>Stats</th></tr>
-	<tr><td>Average author number per article</td><td><?php echo $abdelTerro[1];?></td></tr>
+	<tr><td>Average author number per article</td><td><?php echo $mean_author;?></td></tr>
 </table>
