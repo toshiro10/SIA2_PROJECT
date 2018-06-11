@@ -25,15 +25,16 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Structure de la table `authorbooks`
+-- Structure de la table `authors_books`
 --
 
-DROP TABLE IF EXISTS `authorbooks`;
-CREATE TABLE IF NOT EXISTS `authorbooks` (
-  `idAuthors` int(11) NOT NULL,
-  `idBooks` int(11) NOT NULL,
-  PRIMARY KEY (`idAuthors`,`idBooks`)
+DROP TABLE IF EXISTS `authors_books`;
+CREATE TABLE IF NOT EXISTS `authors_books` (
+  `id_authors` int(11) NOT NULL,
+  `id_books` int(11) NOT NULL,
+  PRIMARY KEY (`id_authors`,`id_books`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+COMMIT;
 
 -- --------------------------------------------------------
 
