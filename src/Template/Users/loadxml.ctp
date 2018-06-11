@@ -10,9 +10,11 @@
     <!-- Collect the nav  links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav nav-pills">
-            <li><a href="#">My Profile</a></li>
+            <li><?= $this->Html->link(__('My Profile'), ['controller' => 'Users',
+'action' => 'edit/'.$this->request->session()->read('Auth.User.id')]) ?></li>
             <li><a href="#">My Drafts</a></li>
-            <li><a href="#">My Articles</a></li>
+            <li><?= $this->Html->link(__('My Articles'), ['controller' => 'Articles' ,
+'action' => 'index']) ?></li>
             <li><a href="#">My Favorites</a></li>
             <li><?= $this->Html->link(__('Load XML'), ['controller' => 'Users' ,
 'action' => 'loadxml']) ?></li>
