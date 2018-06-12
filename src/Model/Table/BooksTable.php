@@ -40,6 +40,22 @@ class BooksTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->addBehavior('Proffer.Proffer', [
+            'photo' => [    // The name of your upload field
+                'root' => WWW_ROOT . 'files', // Customise the root upload folder here, or omit to use the default
+                'dir' => 'photo_dir',   // The name of the field to store the folder
+                'thumbnailSizes' => [ // Declare your thumbnails
+                    'square' => [   // Define the prefix of your thumbnail
+                        'w' => 200, // Width
+                        'h' => 200, // Height
+                        'crop' => true,
+                        'jpeg_quality'  => 100
+                    ],
+                ],
+                'thumbnailMethod' => 'gd'   // Options are Imagick or Gd
+            ]
+        ]);
+
         /*$this->belongsTo('Editors', [
             'foreignKey' => 'editor_id',
             'joinType' => 'INNER'
@@ -55,7 +71,7 @@ class BooksTable extends Table
             // Here we will alias the 'q' query param to search the `Articles.title`
             // field and the `Articles.content` field, using a LIKE match, with `%`
             // both before and after.
-            ->add('title', 'Search.Like', [
+            ->add('q', 'Search.Like', [
                 'before' => true,
                 'after' => true,
                 'fieldMode' => 'OR',

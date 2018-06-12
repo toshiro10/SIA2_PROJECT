@@ -41,6 +41,8 @@ class Book extends Entity
         'ee' => true,
         'series' => true,
         'url' => true,
-        'editor' => true
+        'editor' => true,
+        'photo' => true,
+        'photo_dir' => false
     ];
 }

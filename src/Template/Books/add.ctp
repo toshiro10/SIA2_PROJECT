@@ -11,7 +11,7 @@
     </ul>
 </nav>
 <div class="books form large-9 medium-8 columns content">
-    <?= $this->Form->create($book) ?>
+    <?= $this->Form->create($book, ['type' => 'file']) ?>
     <fieldset>
         <legend><?= __('Add Book') ?></legend>
         <?php
@@ -22,6 +22,7 @@
             echo $this->Form->control('ee');
             echo $this->Form->control('series');
             echo $this->Form->control('url');
+            echo $this->Form->control('photo', ['type' => 'file']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
