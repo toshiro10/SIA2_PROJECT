@@ -18,7 +18,7 @@ echo $this->Form->create(null, ['valueSources' => 'query', 'class' => 'col-md-8'
 // echo $this->Form->control('authorid');
 // Match the search param in your table configuration
 
-echo $this->Form->control('Title',['class' =>'form-control']);
+echo $this->Form->control('title',['class' =>'form-control']);
 ?>
 
 <?php

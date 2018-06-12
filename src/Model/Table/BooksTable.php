@@ -55,7 +55,7 @@ class BooksTable extends Table
             // Here we will alias the 'q' query param to search the `Articles.title`
             // field and the `Articles.content` field, using a LIKE match, with `%`
             // both before and after.
-            ->add('q', 'Search.Like', [
+            ->add('title', 'Search.Like', [
                 'before' => true,
                 'after' => true,
                 'fieldMode' => 'OR',
