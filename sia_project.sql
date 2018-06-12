@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Jun 12, 2018 at 10:51 AM
+-- Generation Time: Jun 12, 2018 at 10:56 AM
 -- Server version: 5.6.38
 -- PHP Version: 7.2.1
 
@@ -20,6 +20,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `articles`
 --
 
+DROP TABLE IF EXISTS `articles`;
 CREATE TABLE `articles` (
   `id` int(50) NOT NULL,
   `id_book` int(50) DEFAULT NULL,
@@ -52,6 +53,7 @@ INSERT INTO `articles` (`id`, `id_book`, `id_state`, `mdate`, `lkey`, `title`, `
 -- Table structure for table `authorbooks`
 --
 
+DROP TABLE IF EXISTS `authorbooks`;
 CREATE TABLE `authorbooks` (
   `idAuthors` int(11) NOT NULL,
   `idBooks` int(11) NOT NULL
@@ -63,6 +65,7 @@ CREATE TABLE `authorbooks` (
 -- Table structure for table `authors`
 --
 
+DROP TABLE IF EXISTS `authors`;
 CREATE TABLE `authors` (
   `id` int(11) NOT NULL,
   `id_user` int(50) DEFAULT NULL,
@@ -77,6 +80,7 @@ CREATE TABLE `authors` (
 -- Table structure for table `authors_articles`
 --
 
+DROP TABLE IF EXISTS `authors_articles`;
 CREATE TABLE `authors_articles` (
   `id_article` int(50) NOT NULL,
   `id_author` int(50) NOT NULL
@@ -88,6 +92,7 @@ CREATE TABLE `authors_articles` (
 -- Table structure for table `books`
 --
 
+DROP TABLE IF EXISTS `books`;
 CREATE TABLE `books` (
   `id` int(11) NOT NULL,
   `modified` datetime NOT NULL,
@@ -117,6 +122,7 @@ INSERT INTO `books` (`id`, `modified`, `created`, `year`, `title`, `editor_id`, 
 -- Table structure for table `incollections`
 --
 
+DROP TABLE IF EXISTS `incollections`;
 CREATE TABLE `incollections` (
   `id` int(11) NOT NULL,
   `mdate` date NOT NULL,
@@ -138,6 +144,7 @@ CREATE TABLE `incollections` (
 -- Table structure for table `states`
 --
 
+DROP TABLE IF EXISTS `states`;
 CREATE TABLE `states` (
   `id` int(11) NOT NULL,
   `state` varchar(255) NOT NULL
@@ -157,6 +164,7 @@ INSERT INTO `states` (`id`, `state`) VALUES
 -- Table structure for table `teams`
 --
 
+DROP TABLE IF EXISTS `teams`;
 CREATE TABLE `teams` (
   `id` int(11) NOT NULL,
   `photo` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -169,6 +177,7 @@ CREATE TABLE `teams` (
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
   `username` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
