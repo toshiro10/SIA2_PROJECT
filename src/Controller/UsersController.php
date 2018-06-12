@@ -49,6 +49,7 @@ class UsersController extends AppController
             $books_Table = TableRegistry::get('Books');
             $articles_Table = TableRegistry::get('Articles');
             $authorArticles_Table = TableRegistry::get('Authors_articles');
+            $authorsBooks_Table = TableRegistry::get('Authors_books');
             $authors_Table = TableRegistry::get('Authors');
             $states_Table = TableRegistry::get('States');
 
@@ -92,6 +93,48 @@ class UsersController extends AppController
                 //debug($newBook);
 
                 $books_Table->save($newBook);
+
+                if($author !=null){
+                        //ajout dans la table  Author
+                        if(is_array($author)){
+                            foreach ($author as $auth) {
+                                $query = $authors_Table->find()->where(['authorfullname' => $auth]);
+                                if($query->count()==0){
+                                    $newAuthor =  $authors_Table->newEntity();
+                                    $newAuthor->authorfullname =$auth;
+                                    $newAuthor->id_user = $this->Auth->user('id');
+                                    $authors_Table->save($newAuthor);
+                                }
+                                //ajout dans la table Authors_Book
+                                $newAuthorBook = $authorsBooks_Table->newEntity();
+                                $getAuthorID = $authors_Table->find()->select(['id'])
+                                                                    ->where(['authorfullname' => $auth])
+                                                                    ->first()['id'];
+                                $newAuthorBook->id_book = $newBook->id;
+                                $newAuthorBook->id_author = $getAuthorID;
+                                debug($newAuthorBook->toArray());
+                                $authorsBooks_Table->save($newAuthorBook);
+                            }
+                        }
+                        else {
+                            $query = $authors_Table->find()->where(['authorfullname' => $author]);
+                            if($query->count()==0){
+                                $newAuthor =  $authors_Table->newEntity();
+                                $newAuthor->authorfullname =$author;
+                                $newAuthor->id_user = $this->Auth->identify();
+                                $authors_Table->save($newAuthor);
+                            }
+                            //ajout dans la table Authors_Book
+                            $newAuthorBook = $authorsBooks_Table->newEntity();
+                            $getAuthorID = $authors_Table->find()->select(['id'])
+                                                                ->where(['authorfullname' => $author])
+                                                                ->first()['id'];
+                            $newAuthorBook->id_book = $newBook->id;
+                            $newAuthorBook->id_author = $getAuthorID;
+                            debug($newAuthorBook->toArray());
+                            $authorsBooks_Table->save($newAuthorBook);
+                        }
+                }
 
                 $mdate = null;
                 $key =null;
@@ -179,30 +222,34 @@ class UsersController extends AppController
                                     $newAuthor->authorfullname =$auth;
                                     $newAuthor->id_user = $this->Auth->user('id');
                                     $authors_Table->save($newAuthor);
+                                }
 
                                     //ajout dans la table Authors_Articles
                                     $newAuthorArticle = $authorArticles_Table->newEntity();
                                     $getAuthorID = $authors_Table->find()->select(['id'])
-                                                                        ->where(['authorfullname' => $auth]);
+                                                                        ->where(['authorfullname' => $auth])
+                                                                        ->first()['id'];
                                     $newAuthorArticle->id_author = $getAuthorID;
                                     $newAuthorArticle->id_article = $newArticle->id;
                                     $authorArticles_Table->save($newAuthorArticle);
-                                }
                             }
                         }
                         else {
                             $query = $authors_Table->find()->where(['authorfullname' => $author]);
-                            $newAuthor =  $authors_Table->newEntity();
-                            $newAuthor->authorfullname =$author;
-                            $newAuthor->id_user = $this->Auth->identify();
-                            $authors_Table->save($newAuthor);
-
+                            if($query->count()==0){
+                                $newAuthor =  $authors_Table->newEntity();
+                                $newAuthor->authorfullname =$author;
+                                $newAuthor->id_user = $this->Auth->identify();
+                                $authors_Table->save($newAuthor);
+                            }                                
                             //ajout dans la table Authors_Articles
                             $newAuthorArticle = $authorArticles_Table->newEntity();
                             $getAuthorID = $authors_Table->find()->select(['id'])
-                                                                ->where(['authorfullname' => $author]);
+                                                                ->where(['authorfullname' => $author])
+                                                                ->first()['id'];
                             $newAuthorArticle->id_author = $getAuthorID;
                             $newAuthorArticle->id_article = $newArticle->id;
+                            $authorArticles_Table->save($newAuthorArticle);
 
 
                         }
@@ -377,6 +424,7 @@ public function register(){
         );
     }
     public function stat(){
+    //Stats Articles   
         $authorArticles_Table = TableRegistry::get('Authors_articles');
 
         $countAuthorsByArticle = $authorArticles_Table->find();
@@ -395,7 +443,29 @@ public function register(){
 
        // $mean_author = $countAuthorsByArticle->select(['average' => $countAuthorsByArticle->func()->sum(count('id_author'))]);
 
-        debug($mean_author);
+        //debug($mean_author);
         $this->set('mean_author', $mean_author);
+
+    //Stats Books
+        $authorBooks_Table = TableRegistry::get('Authors_books');
+
+        $countAuthorsByArticle_book = $authorBooks_Table->find();
+        // You can add extra things to the query if you need to
+        $countAuthorsByArticle_book = $countAuthorsByArticle_book->select(['count' => $countAuthorsByArticle_book->func()->count('id_author')])
+                    ->group('id_book');
+        $sumCount = 0;
+        $nbResults = $countAuthorsByArticle_book->count();
+
+        //debug($countAuthorsByArticle->toArray());
+        foreach ($countAuthorsByArticle_book->toArray() as $count) {
+            $sumCount += $count['count'];
+        }
+
+        $mean_author_book = $sumCount/$nbResults;
+
+       // $mean_author = $countAuthorsByArticle->select(['average' => $countAuthorsByArticle->func()->sum(count('id_author'))]);
+
+        //debug($mean_author);
+        $this->set('mean_author_book', $mean_author_book);
     }
 }

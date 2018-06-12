@@ -1,6 +1,6 @@
 <?php
 ?>
-<h1>Some statistics on articles</h1>
+<h1>Some statistics</h1>
 
  <nav class="navbar navbar-default">
   <div class="container-fluid">
@@ -22,8 +22,15 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<h2>stats</h2>
+<h2>Stats Articles</h2>
 <table>
 	<tr><th>Name</th><th>Stats</th></tr>
-	<tr><td>Average author number per article</td><td><?php echo $mean_author;?></td></tr>
+	<tr><td style="margin: 10px; padding: 5px;">Average author number per article</td><td><?php echo $mean_author;?></td></tr>
+</table>
+<br>
+
+<h2>Stats Books</h2>
+<table>
+  <tr><th>Name</th><th>Stats</th></tr>
+  <tr><td style="margin: 10px; padding: 5px;">Average author number per book</td><td><?php echo $mean_author_book;?></td></tr>
 </table>

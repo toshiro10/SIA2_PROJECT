@@ -30,9 +30,9 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `authors_books`;
 CREATE TABLE IF NOT EXISTS `authors_books` (
-  `id_authors` int(11) NOT NULL,
-  `id_books` int(11) NOT NULL,
-  PRIMARY KEY (`id_authors`,`id_books`)
+  `id_author` int(11) NOT NULL,
+  `id_book` int(11) NOT NULL,
+  PRIMARY KEY (`id_author`,`id_book`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 COMMIT;
 
